@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import User
+from .models import User, MembershipPlan
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -34,3 +34,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'username', 'first_name', 'last_name',
                   'phone', 'address', 'birthdate', 'role', 'created_at']
         read_only_fields = ['id', 'email', 'role', 'created_at']
+
+
+class MembershipPlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = MembershipPlan
+        fields = ['id', 'name', 'description', 'price', 'duration', 'is_active']

@@ -8,6 +8,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, LoginSerializer, UserProfileSerializer
+from .models import MembershipPlan
+from .serializers import MembershipPlanSerializer
 
 
 class RegisterView(APIView):
@@ -59,3 +61,12 @@ class ProfileView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MembershipPlanListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        plans = MembershipPlan.objects.filter(is_active=True)
+        serializer = MembershipPlanSerializer(plans, many=True)
+        return Response(serializer.data)
