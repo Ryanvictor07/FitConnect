@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import User, MembershipPlan
+from .models import User, MembershipPlan, MembershipApplication, HealthDocument
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -40,3 +40,27 @@ class MembershipPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model  = MembershipPlan
         fields = ['id', 'name', 'description', 'price', 'duration', 'is_active']
+
+
+class HealthDocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = HealthDocument
+        fields = ['id', 'file', 'uploaded_at']
+
+
+class MembershipApplicationSerializer(serializers.ModelSerializer):
+    documents = HealthDocumentSerializer(many=True, read_only=True)
+    plan_name = serializers.CharField(source='plan.name', read_only=True)
+
+    class Meta:
+        model  = MembershipApplication
+        fields = ['id', 'user', 'plan', 'plan_name', 'status',
+                  'rejection_reason', 'submitted_at', 'reviewed_at', 'documents']
+        read_only_fields = ['id', 'user', 'status', 'rejection_reason',
+                            'submitted_at', 'reviewed_at']
+
+
+class SubmitApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = MembershipApplication
+        fields = ['plan']

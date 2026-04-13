@@ -55,3 +55,28 @@ class MembershipPlan(models.Model):
 
     def __str__(self):
         return self.name
+
+class MembershipApplication(models.Model):
+    STATUS_CHOICES = (
+        ('pending',  'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+    user             = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
+    plan             = models.ForeignKey(MembershipPlan, on_delete=models.SET_NULL, null=True)
+    status           = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    rejection_reason = models.TextField(blank=True)
+    submitted_at     = models.DateTimeField(auto_now_add=True)
+    reviewed_at      = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.status}"
+
+
+class HealthDocument(models.Model):
+    application = models.ForeignKey(MembershipApplication, on_delete=models.CASCADE, related_name='documents')
+    file        = models.FileField(upload_to='health_documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Document for {self.application.user.email}"
