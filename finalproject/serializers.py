@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import User, MembershipPlan, MembershipApplication, HealthDocument
+from .models import User, MembershipPlan, MembershipApplication, HealthDocument, PersonalTrainer, TrainerRequest
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -64,3 +64,18 @@ class SubmitApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model  = MembershipApplication
         fields = ['plan']
+
+
+class PersonalTrainerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = PersonalTrainer
+        fields = ['id', 'name', 'specialty', 'experience', 'is_available']
+
+
+class TrainerRequestSerializer(serializers.ModelSerializer):
+    trainer_name = serializers.CharField(source='trainer.name', read_only=True)
+
+    class Meta:
+        model  = TrainerRequest
+        fields = ['id', 'user', 'trainer', 'trainer_name', 'application', 'status', 'requested_at']
+        read_only_fields = ['id', 'user', 'status', 'requested_at']

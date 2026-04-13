@@ -80,3 +80,30 @@ class HealthDocument(models.Model):
 
     def __str__(self):
         return f"Document for {self.application.user.email}"
+
+
+class PersonalTrainer(models.Model):
+    name        = models.CharField(max_length=100)
+    specialty   = models.CharField(max_length=200)
+    experience  = models.IntegerField(help_text="Years of experience")
+    is_available = models.BooleanField(default=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class TrainerRequest(models.Model):
+    STATUS_CHOICES = (
+        ('pending',  'Pending'),
+        ('assigned', 'Assigned'),
+        ('rejected', 'Rejected'),
+    )
+    user        = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainer_requests')
+    trainer     = models.ForeignKey(PersonalTrainer, on_delete=models.SET_NULL, null=True)
+    application = models.ForeignKey(MembershipApplication, on_delete=models.CASCADE, related_name='trainer_requests')
+    status      = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    requested_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.trainer.name}"

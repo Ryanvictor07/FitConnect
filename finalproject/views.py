@@ -6,10 +6,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import MembershipPlan, MembershipApplication, HealthDocument
+from .models import MembershipPlan, MembershipApplication, HealthDocument, PersonalTrainer, TrainerRequest
 from .serializers import (RegisterSerializer, LoginSerializer,
                           UserProfileSerializer, MembershipPlanSerializer,
-                          MembershipApplicationSerializer, SubmitApplicationSerializer,)
+                          MembershipApplicationSerializer, SubmitApplicationSerializer, PersonalTrainerSerializer, TrainerRequestSerializer)
 
 
 class RegisterView(APIView):
@@ -109,3 +109,35 @@ class ApplicationStatusView(APIView):
             )
         serializer = MembershipApplicationSerializer(application)
         return Response(serializer.data)
+
+class PersonalTrainerListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        trainers = PersonalTrainer.objects.filter(is_available=True)
+        serializer = PersonalTrainerSerializer(trainers, many=True)
+        return Response(serializer.data)
+
+
+class TrainerRequestView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        application = MembershipApplication.objects.filter(
+            user=request.user
+        ).order_by('-submitted_at').first()
+        if not application:
+            return Response(
+                {'error': 'You need to submit a membership application first.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if TrainerRequest.objects.filter(user=request.user).exists():
+            return Response(
+                {'error': 'You already have a trainer request.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer = TrainerRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user, application=application)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

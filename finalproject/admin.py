@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, MembershipPlan, MembershipApplication, HealthDocument
+from .models import User, MembershipPlan, MembershipApplication, HealthDocument, PersonalTrainer, TrainerRequest
 
 @admin.register(MembershipPlan)
 class MembershipPlanAdmin(admin.ModelAdmin):
@@ -19,3 +19,10 @@ class HealthDocumentAdmin(admin.ModelAdmin):
     list_display = ['application', 'uploaded_at']
 
 # Register your models here.
+@admin.register(PersonalTrainer)
+class PersonalTrainerAdmin(admin.ModelAdmin):
+    list_display = ['name', 'specialty', 'experience', 'is_available']
+
+@admin.register(TrainerRequest)
+class TrainerRequestAdmin(admin.ModelAdmin):
+    list_display = ['user', 'trainer', 'application', 'status']
