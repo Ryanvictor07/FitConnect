@@ -27,7 +27,6 @@ from .serializers import (
 class RegisterView(APIView):
    permission_classes = [AllowAny]
 
-
    def post(self, request):
        serializer = RegisterSerializer(data=request.data)
        if serializer.is_valid():
@@ -478,7 +477,7 @@ def admin_login_page(request):
 
 
 def admin_dashboard_page(request):
-       return render(request, 'admin_dashboard.html')
+       return render(request, 'sampleui.html')
 
 
 

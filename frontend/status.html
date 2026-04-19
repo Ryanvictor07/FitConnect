@@ -3,102 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitConnect - Application Status</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>FitConnect - Status</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
-        <h1 class="text-xl font-bold text-blue-600">FitConnect</h1>
-        <button onclick="logout()" class="text-sm text-gray-500 hover:text-red-500">Logout</button>
+<body>
+    <nav class="navbar">
+        <h1>FitConnect</h1>
+        <button onclick="logout()">Logout</button>
     </nav>
 
-    <div class="max-w-lg mx-auto p-6">
-        <div id="loading" class="text-center text-gray-400 py-10">Loading your application...</div>
+    <div class="page-container">
+        <p id="loading" style="text-align:center; color:#94a3b8; padding:40px;">
+            Loading your application...
+        </p>
 
-        <div id="status-card" class="hidden bg-white rounded-lg shadow p-6">
-            <p class="text-xs font-semibold text-gray-400 uppercase mb-4">Application status</p>
-            <div id="status-badge" class="mb-4"></div>
-            <table class="w-full text-sm">
-                <tr class="border-b">
-                    <td class="py-2 text-gray-500 w-1/3">Plan</td>
-                    <td id="s-plan" class="py-2 font-medium"></td>
-                </tr>
-                <tr class="border-b">
-                    <td class="py-2 text-gray-500">Submitted</td>
-                    <td id="s-date" class="py-2"></td>
-                </tr>
-                <tr class="border-b">
-                    <td class="py-2 text-gray-500">Reviewed</td>
-                    <td id="s-reviewed" class="py-2"></td>
-                </tr>
-                <tr>
-                    <td class="py-2 text-gray-500">Reason</td>
-                    <td id="s-reason" class="py-2"></td>
-                </tr>
+        <div id="status-card" class="status-card" style="display:none">
+            <p class="section-label">Application status</p>
+            <div id="status-badge" style="margin-bottom:16px;"></div>
+            <table class="status-table">
+                <tr><td>Plan</td><td id="s-plan" style="font-weight:600"></td></tr>
+                <tr><td>Submitted</td><td id="s-date"></td></tr>
+                <tr><td>Reviewed</td><td id="s-reviewed"></td></tr>
+                <tr><td>Reason</td><td id="s-reason"></td></tr>
             </table>
         </div>
 
-        <div id="no-application" class="hidden bg-white rounded-lg shadow p-6 text-center">
-            <p class="text-gray-500 mb-4">You have not submitted an application yet.</p>
-            <a href="application.html"
-                class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+        <div id="no-application" class="status-card" style="display:none; text-align:center;">
+            <p style="color:#64748b; margin-bottom:16px;">You have not submitted an application yet.</p>
+            <a href="application.html" class="btn btn-primary" style="display:inline-block; width:auto; padding:10px 24px;">
                 Apply Now
             </a>
         </div>
     </div>
 
-    <script>
-        const API   = 'http://127.0.0.1:8000/api/users';
-        const token = localStorage.getItem('access_token');
-
-        if (!token) window.location.href = 'login.html';
-
-        const statusColors = {
-            pending:  'bg-yellow-100 text-yellow-700',
-            approved: 'bg-green-100 text-green-700',
-            rejected: 'bg-red-100 text-red-700',
-        };
-
-        async function loadStatus() {
-            try {
-                const res  = await fetch(`${API}/application/status/`, {
-                    headers: { 'Authorization': `Bearer ${token}` },
-                });
-                const data = await res.json();
-
-                document.getElementById('loading').classList.add('hidden');
-
-                if (res.status === 404) {
-                    document.getElementById('no-application').classList.remove('hidden');
-                    return;
-                }
-
-                document.getElementById('status-card').classList.remove('hidden');
-
-                const badge    = document.getElementById('status-badge');
-                const color    = statusColors[data.status] || 'bg-gray-100 text-gray-700';
-                badge.innerHTML = `
-                    <span class="inline-block ${color} px-3 py-1 rounded-full text-sm font-medium capitalize">
-                        ${data.status}
-                    </span>`;
-
-                document.getElementById('s-plan').textContent     = data.plan_name || '-';
-                document.getElementById('s-date').textContent     = new Date(data.submitted_at).toLocaleDateString();
-                document.getElementById('s-reviewed').textContent = data.reviewed_at
-                    ? new Date(data.reviewed_at).toLocaleDateString() : 'Not yet reviewed';
-                document.getElementById('s-reason').textContent   = data.rejection_reason || '-';
-
-            } catch (err) {
-                document.getElementById('loading').textContent = 'Cannot connect to server.';
-            }
-        }
-
-        function logout() {
-            localStorage.clear();
-            window.location.href = 'login.html';
-        }
-
-        loadStatus();
-    </script>
+    <script src="js/auth.js"></script>
+    <script src="js/status.js"></script>
 </body>
 </html>
