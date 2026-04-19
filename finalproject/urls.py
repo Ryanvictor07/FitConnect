@@ -34,6 +34,7 @@ urlpatterns = [
 
 
    # Admin API
+   path('admin/dashboard/', AdminDashboardView.as_view(), name='admin-dashboard'),
    path('admin-login-api/', AdminLoginView.as_view(), name='admin-login-api'),
    path('admin/applications/',  AdminApplicationListView.as_view(), name='admin-application-list'),
    path('admin/applications/<int:pk>/', AdminApplicationDetailView.as_view(), name='admin-application-detail'),

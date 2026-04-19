@@ -5,31 +5,24 @@
 # Create your views here.
 
 
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.utils import timezone
-from django.shortcuts import render
-
-
-from .models import (MembershipPlan, MembershipApplication,
-                    HealthDocument, PersonalTrainer, TrainerRequest)
+from .models import MembershipPlan, MembershipApplication, HealthDocument, PersonalTrainer, TrainerRequest
 from .serializers import (
-   RegisterSerializer, LoginSerializer,
-   UserProfileSerializer, MembershipPlanSerializer,
-   MembershipApplicationSerializer, SubmitApplicationSerializer,
-   PersonalTrainerSerializer, TrainerRequestSerializer,
-   AdminLoginSerializer, AdminApplicationSerializer,
-   AdminReviewApplicationSerializer, AdminMembershipPlanSerializer,
-   AdminPersonalTrainerSerializer,
+    RegisterSerializer, LoginSerializer, UserProfileSerializer,
+    MembershipPlanSerializer, MembershipApplicationSerializer,
+    SubmitApplicationSerializer, PersonalTrainerSerializer,
+    TrainerRequestSerializer, AdminLoginSerializer,
+    AdminApplicationSerializer, AdminReviewApplicationSerializer,
+    AdminMembershipPlanSerializer, AdminPersonalTrainerSerializer,
 )
-
-
-
 
 class RegisterView(APIView):
    permission_classes = [AllowAny]
@@ -332,6 +325,21 @@ class AdminApplicationDetailView(APIView):
                'application': AdminApplicationSerializer(application).data,
            })
        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+   def delete(self, request, pk):
+       application = self._get_object(pk)
+       if not application:
+           return Response(
+               {'error': 'Application not found.'},
+               status=status.HTTP_404_NOT_FOUND
+           )
+       if application.status != 'rejected':
+           return Response(
+               {'error': 'Only rejected applications can be deleted.'},
+               status=status.HTTP_400_BAD_REQUEST
+           )
+       application.delete()
+       return Response({'message': 'Application deleted successfully.'})
 
 
 
