@@ -12,10 +12,9 @@ async function loadStatus() {
             headers: getAuthHeaders(),
         });
         const data = await res.json();
-
         document.getElementById('loading').style.display = 'none';
-
-        if (res.status === 404) {
+        
+        if (res.status === 404 || !data || !data.plan_name) {
             document.getElementById('no-application').style.display = 'block';
             return;
         }
@@ -42,6 +41,4 @@ async function loadStatus() {
 }
 
 loadStatus();
-
-
  
