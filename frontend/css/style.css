@@ -52,6 +52,8 @@ body::before {
   background: rgba(8,8,8,0.85);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
+
+
 }
 
 .nav-logo {
@@ -1031,3 +1033,292 @@ select.plain option { background: var(--surface2); }
   .form-row { grid-template-columns: 1fr; }
   .main-footer { flex-direction: column; gap: 8px; text-align: center; }
 }
+
+
+
+
+  .status-page-bg {
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 50% 40% at 80% 20%, rgba(249,115,22,0.06), transparent),
+                radial-gradient(ellipse 40% 50% at 10% 80%, rgba(249,115,22,0.04), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+ 
+        .status-grid-bg {
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(249,115,22,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(249,115,22,0.025) 1px, transparent 1px);
+            background-size: 52px 52px;
+            pointer-events: none;
+            z-index: 0;
+        }
+ 
+        .page-container {
+            position: relative;
+            z-index: 1;
+        }
+ 
+        /* ── PAGE HEADER ── */
+        .status-page-header {
+            margin-bottom: 28px;
+            animation: fadeUp 0.4s ease both;
+        }
+ 
+        .status-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 4px 12px;
+            background: rgba(249,115,22,0.1);
+            border: 1px solid rgba(249,115,22,0.2);
+            border-radius: 4px;
+            font-size: 10px; font-weight: 800;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 12px;
+        }
+ 
+        .status-eyebrow::before {
+            content: '';
+            width: 5px; height: 5px;
+            background: var(--orange);
+            border-radius: 50%;
+            animation: heroPulse 2s infinite;
+        }
+ 
+        .status-page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 38px;
+            letter-spacing: 3px;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+ 
+        .status-page-sub {
+            font-size: 12px;
+            color: var(--txt-dim);
+            letter-spacing: 1px;
+        }
+ 
+        /* ── ENHANCED STATUS CARD ── */
+        .status-card {
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--border2);
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.03) inset;
+            animation: fadeUp 0.45s ease 0.1s both;
+        }
+ 
+        .status-card-top-bar {
+            height: 3px;
+        }
+ 
+        .status-card-top-bar.pending  { background: linear-gradient(90deg, #fbbf24, rgba(251,191,36,0.1)); }
+        .status-card-top-bar.approved { background: linear-gradient(90deg, #22c55e, rgba(34,197,94,0.1)); }
+        .status-card-top-bar.rejected { background: linear-gradient(90deg, #ef4444, rgba(239,68,68,0.1)); }
+ 
+        .status-card-header {
+            padding: 28px 28px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+ 
+        .status-header-left {
+            display: flex; align-items: center; gap: 16px;
+        }
+ 
+        .status-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+ 
+        .status-icon.pending  {
+            background: rgba(251,191,36,0.1);
+            border: 1px solid rgba(251,191,36,0.25);
+            box-shadow: 0 0 20px rgba(251,191,36,0.1);
+        }
+        .status-icon.approved {
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.25);
+            box-shadow: 0 0 20px rgba(34,197,94,0.1);
+        }
+        .status-icon.rejected {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.25);
+            box-shadow: 0 0 20px rgba(239,68,68,0.1);
+        }
+ 
+        .status-header-text {}
+ 
+        .status-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px; letter-spacing: 2px; color: #fff;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+ 
+        .status-subtitle {
+            font-size: 11px;
+            color: var(--txt-dim);
+            letter-spacing: 1px;
+        }
+ 
+        /* ── STATUS BODY ── */
+        .status-body {
+            padding: 0;
+        }
+ 
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 28px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+ 
+        .status-row:last-child { border-bottom: none; }
+        .status-row:hover { background: rgba(255,255,255,0.015); }
+ 
+        .status-row-label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--txt-dim);
+            display: flex; align-items: center; gap: 8px;
+        }
+ 
+        .status-row-label .row-icon {
+            font-size: 13px;
+            opacity: 0.5;
+        }
+ 
+        .status-row-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--txt);
+            text-align: right;
+        }
+ 
+        /* ── STATUS FOOTER ── */
+        .status-card-footer {
+            padding: 18px 28px;
+            background: var(--surface2);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--txt-dim);
+        }
+ 
+        .status-card-footer .footer-note {
+            display: flex; align-items: center; gap: 6px;
+        }
+ 
+        /* ── HELP CARD ── */
+        .help-card {
+            margin-top: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            animation: fadeUp 0.45s ease 0.2s both;
+        }
+ 
+        .help-card-icon {
+            width: 36px; height: 36px;
+            background: rgba(249,115,22,0.1);
+            border: 1px solid rgba(249,115,22,0.2);
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+ 
+        .help-card-text {
+            font-size: 12px;
+            color: var(--txt-muted);
+            line-height: 1.6;
+        }
+ 
+        .help-card-text strong {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--txt);
+            margin-bottom: 2px;
+        }
+ 
+        /* ── NO APPLICATION CARD ── */
+        #no-application {
+            text-align: center;
+            padding: 48px 28px;
+            animation: fadeUp 0.45s ease both;
+        }
+ 
+        #no-application .empty-icon {
+            width: 64px; height: 64px;
+            background: rgba(249,115,22,0.08);
+            border: 1px solid rgba(249,115,22,0.15);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 18px;
+        }
+ 
+        #no-application h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px; letter-spacing: 2px;
+            color: #fff; margin-bottom: 8px;
+        }
+ 
+        #no-application p {
+            font-size: 13px;
+            color: var(--txt-dim);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+ 
+        /* Loading */
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeUp 0.4s ease both;
+        }
+ 
+        .loading-spinner {
+            width: 36px; height: 36px;
+            border: 2px solid var(--border2);
+            border-top-color: var(--orange);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+ 
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+ 
+        .loading-state p {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--txt-dim);
+        }

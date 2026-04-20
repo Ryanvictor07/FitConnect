@@ -6,6 +6,31 @@ const statusColors = {
     rejected: 'badge-rejected',
 };
 
+function applyStatus(status) {
+    const topBar   = document.getElementById('status-top-bar');
+    const icon     = document.getElementById('status-icon');
+    const titleTxt = document.getElementById('status-title-text');
+
+    const s = (status || '').toLowerCase();
+
+    topBar.className = 'status-card-top-bar ' + s;
+    icon.className   = 'status-icon ' + s;
+
+    if (s === 'approved') {
+        icon.textContent = '✅';
+        titleTxt.textContent = 'Approved';
+    } else if (s === 'rejected') {
+        icon.textContent = '❌';
+        titleTxt.textContent = 'Not Approved';
+    } else {
+        icon.textContent = '⏳';
+        titleTxt.textContent = 'Under Review';
+    }
+
+    document.getElementById('footer-date').textContent =
+        'Updated: ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
 async function loadStatus() {
     try {
         const res  = await fetch(`${API}/application/status/`, {
@@ -13,7 +38,7 @@ async function loadStatus() {
         });
         const data = await res.json();
         document.getElementById('loading').style.display = 'none';
-        
+
         if (res.status === 404 || !data || !data.plan_name) {
             document.getElementById('no-application').style.display = 'block';
             return;
@@ -24,6 +49,9 @@ async function loadStatus() {
         const color = statusColors[data.status] || 'badge-pending';
         document.getElementById('status-badge').innerHTML =
             `<span class="badge ${color}">${data.status}</span>`;
+
+        // ✅ Call applyStatus directly here
+        applyStatus(data.status);
 
         document.getElementById('s-plan').textContent     = data.plan_name || '—';
         document.getElementById('s-date').textContent     =
@@ -41,4 +69,3 @@ async function loadStatus() {
 }
 
 loadStatus();
- 
