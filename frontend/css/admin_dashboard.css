@@ -793,3 +793,65 @@
       margin: 24px 0;
       opacity: 0.3;
     }
+
+
+/* ═══════════════════════════════════════════════════
+   LIGHT MODE for Admin Dashboard (html.light)
+═══════════════════════════════════════════════════ */
+html.light {
+  --bg:        #f0f0f0;
+  --surface:   #ffffff;
+  --surface2:  #f7f7f7;
+  --surface3:  #eeeeee;
+  --border:    #e0e0e0;
+  --border2:   #d0d0d0;
+  --txt:       #111111;
+  --txt-muted: #555555;
+  --txt-dim:   #999999;
+}
+
+html.light body                    { background: var(--bg); }
+html.light #sidebar                { background: var(--surface); border-right-color: var(--border); }
+html.light .sidebar-logo           { border-bottom-color: var(--border); }
+html.light .sidebar-logo h2        { color: #111; }
+html.light .nav-item               { color: var(--txt-muted); }
+html.light .nav-item:hover         { color: #111; }
+html.light .nav-item.active        { color: #111; }
+html.light .nav-item .icon         { background: var(--surface2); }
+html.light .nav-item:hover .icon   { background: var(--surface3); }
+html.light .sidebar-footer         { border-top-color: var(--border); }
+html.light .admin-badge            { background: var(--surface2); border-color: var(--border); }
+html.light .admin-badge .info p    { color: #111; }
+html.light .logout-btn             { background: var(--surface2); border-color: var(--border); color: var(--txt-muted); }
+html.light .topbar                 { background: var(--surface); border-bottom-color: var(--border); }
+html.light .topbar-left h1         { color: #111; }
+html.light .section-header h2      { color: #111; }
+html.light .table-wrap             { background: var(--surface); border-color: var(--border); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+html.light thead th                { background: var(--surface2); border-bottom-color: var(--border); }
+html.light tbody td                { border-bottom-color: var(--border); }
+html.light tbody tr:hover td       { background: var(--surface2); }
+html.light .stat-card              { background: var(--surface); border-color: var(--border); }
+html.light .stat-card:hover        { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+html.light .dashboard-hero         { background: var(--surface); border-color: var(--border); }
+html.light .dashboard-hero .hero-text h2 { color: #111; }
+html.light .modal                  { background: var(--surface); border-color: var(--border2); }
+html.light .modal h3               { color: #111; }
+html.light .modal-header           { border-bottom-color: var(--border); }
+html.light .modal .actions         { border-top-color: var(--border); }
+html.light .modal input,
+html.light .modal select,
+html.light .modal textarea         { background: var(--surface2); border-color: var(--border2); color: var(--txt); }
+html.light .filter-bar select,
+html.light .filter-bar input       { background: var(--surface); border-color: var(--border); color: var(--txt); }
+html.light #toast                  { background: var(--surface); border-color: var(--border2); color: var(--txt); }
+html.light body::before            { opacity: 0.1; }
+html.light ::-webkit-scrollbar-track { background: var(--bg); }
+html.light ::-webkit-scrollbar-thumb { background: var(--border2); }
+
+/* Smooth transitions */
+body, #sidebar, .topbar, .stat-card, .table-wrap,
+.dashboard-hero, .modal, thead th, tbody td,
+.nav-item, .admin-badge, .logout-btn,
+.filter-bar select, .filter-bar input {
+  transition: background-color 0.25s, border-color 0.25s, color 0.2s;
+}
