@@ -779,7 +779,10 @@ select.plain option { background: var(--surface2); }
   align-items: center;
   position: relative;
   overflow: hidden;
+  justify-content: flex-start; 
+  gap: 40px;
   padding: 68px 48px 0;
+
 }
 
 .hero-bg {
@@ -800,6 +803,20 @@ select.plain option { background: var(--surface2); }
 .hero-content {
   position: relative; z-index: 1;
   max-width: 680px;
+  flex: 2;
+}
+
+.hero-image {
+  flex: 1;
+  text-align: left;
+}
+
+.hero-image img {
+  max-width: 80%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.6);
+  margin-left: 20px
 }
 
 .hero-eyebrow {
