@@ -472,12 +472,12 @@ class AdminPersonalTrainerDetailView(APIView):
 
 
 
-def admin_login_page(request):
-       return render(request, 'admin_login.html')
-
-
-def admin_dashboard_page(request):
-       return render(request, 'sampleui.html')
+# def admin_login_page(request):
+#        return render(request, 'admin_login.html')
+#
+#
+# def admin_dashboard_page(request):
+#        return render(request, 'sampleui.html')
 
 
 
