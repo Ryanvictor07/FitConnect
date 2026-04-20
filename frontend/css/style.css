@@ -1006,10 +1006,26 @@ select.plain option { background: var(--surface2); }
   overflow: hidden;
 }
 
+/*.cta-section::before {*/
+/*  content: '';*/
+/*  position: absolute; inset: 0;*/
+/*  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(249,115,22,0.06), transparent);*/
+/*}*/
+
 .cta-section::before {
   content: '';
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(249,115,22,0.06), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cta-section h3,
+.cta-section p,
+.cta-section a {
+  position: relative;
+  z-index: 1;
 }
 
 .cta-section h3 {
