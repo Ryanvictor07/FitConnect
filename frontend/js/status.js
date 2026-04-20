@@ -63,6 +63,13 @@ async function loadStatus() {
         document.getElementById('s-reason').textContent   =
             data.rejection_reason || '—';
 
+        // ✅ Show reapply button only when rejected — must be AFTER data is loaded
+        if (data.status === 'rejected') {
+            document.getElementById('reapply-section').style.display = 'block';
+        } else {
+            document.getElementById('reapply-section').style.display = 'none';
+        }
+
     } catch {
         document.getElementById('loading').textContent = 'Cannot connect to server.';
     }

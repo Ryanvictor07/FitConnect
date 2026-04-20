@@ -102,14 +102,56 @@ async function submitApplication() {
         goStep(2);
         return;
     }
+
+    const firstName = document.getElementById('first_name').value.trim();
+    const lastName  = document.getElementById('last_name').value.trim();
+    const phone     = document.getElementById('phone').value.trim();
+    const address   = document.getElementById('address').value.trim();
+    const birthdate = document.getElementById('birthdate').value;
+
+    if (!firstName || !lastName) {
+        showError('error-msg', 'Please enter your full name.');
+        goStep(1);
+        return;
+    }
+
     try {
+        // ✅ Step 1: Update user profile with personal info first
+        await fetch(`${API}/profile/update/`, {
+            method:  'PATCH',
+            headers: getAuthHeaders(),
+            body:    JSON.stringify({
+                first_name: firstName,
+                last_name:  lastName,
+                phone:      phone,
+                address:    address,
+                birthdate:  birthdate || null,
+            }),
+        });
+
+        // ✅ Step 2: Submit the application
         const res  = await fetch(`${API}/apply/`, {
             method:  'POST',
             headers: getAuthHeaders(),
             body:    JSON.stringify({ plan: selectedPlan.id }),
         });
         const data = await res.json();
+
         if (res.ok) {
+            // ✅ Step 3: Upload health document if provided
+            const healthDoc = document.getElementById('health_doc').files[0];
+            if (healthDoc) {
+                const formData = new FormData();
+                formData.append('file', healthDoc);
+                formData.append('application', data.id);
+                await fetch(`${API}/health-document/upload/`, {
+                    method:  'POST',
+                    headers: { 'Authorization': getAuthHeaders()['Authorization'] },
+                    body:    formData,
+                });
+            }
+
+            // ✅ Step 4: Assign trainer if selected
             if (selectedTrainer && selectedTrainer.id) {
                 await fetch(`${API}/trainers/request/`, {
                     method:  'POST',
@@ -120,6 +162,7 @@ async function submitApplication() {
                     }),
                 });
             }
+
             window.location.href = 'status.html';
         } else {
             showError('error-msg', JSON.stringify(data));

@@ -82,6 +82,21 @@ class ProfileView(APIView):
        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UserProfileUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        user = request.user
+        data = request.data
+
+        user.first_name = data.get('first_name', user.first_name)
+        user.last_name  = data.get('last_name',  user.last_name)
+        user.phone      = data.get('phone',      user.phone)
+        user.address    = data.get('address',    user.address)
+        user.birthdate  = data.get('birthdate',  user.birthdate)
+        user.save()
+
+        return Response({'message': 'Profile updated.'})
 
 
 class MembershipPlanListView(APIView):
@@ -95,29 +110,43 @@ class MembershipPlanListView(APIView):
 
 
 class SubmitApplicationView(APIView):
-   permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request):
+        # ✅ Block if already has a PENDING application
+        if MembershipApplication.objects.filter(
+            user=request.user, status='pending'
+        ).exists():
+            return Response(
+                {'error': 'You already have a pending application.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-   def post(self, request):
-       if MembershipApplication.objects.filter(
-           user=request.user, status='pending'
-       ).exists():
-           return Response(
-               {'error': 'You already have a pending application.'},
-               status=status.HTTP_400_BAD_REQUEST
-           )
-       serializer = SubmitApplicationSerializer(data=request.data)
-       if serializer.is_valid():
-           application = serializer.save(user=request.user)
-           files = request.FILES.getlist('documents')
-           for f in files:
-               HealthDocument.objects.create(application=application, file=f)
-           return Response(
-               MembershipApplicationSerializer(application).data,
-               status=status.HTTP_201_CREATED
-           )
-       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # ✅ Block if already APPROVED — no need to reapply
+        if MembershipApplication.objects.filter(
+            user=request.user, status='approved'
+        ).exists():
+            return Response(
+                {'error': 'Your membership is already approved.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
+        # ✅ If previously REJECTED, delete old application before reapplying
+        MembershipApplication.objects.filter(
+            user=request.user, status='rejected'
+        ).delete()
+
+        serializer = SubmitApplicationSerializer(data=request.data)
+        if serializer.is_valid():
+            application = serializer.save(user=request.user)
+            files = request.FILES.getlist('documents')
+            for f in files:
+                HealthDocument.objects.create(application=application, file=f)
+            return Response(
+                MembershipApplicationSerializer(application).data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -472,12 +501,12 @@ class AdminPersonalTrainerDetailView(APIView):
 
 
 
-def admin_login_page(request):
-       return render(request, 'admin_login.html')
-
-
-def admin_dashboard_page(request):
-       return render(request, 'sampleui.html')
+# def admin_login_page(request):
+#        return render(request, 'admin_login.html')
+#
+#
+# def admin_dashboard_page(request):
+#        return render(request, 'sampleui.html')
 
 
 
