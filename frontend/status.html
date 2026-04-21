@@ -1,133 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FitConnect — Application Status</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen">
-  <nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold text-blue-600">FitConnect</h1>
-    <div class="flex gap-4 items-center">
-      <a href="dashboard.html"   class="text-sm text-gray-500 hover:text-blue-600">Dashboard</a>
-      <a href="application.html" class="text-sm text-gray-500 hover:text-blue-600">Apply</a>
-      <button onclick="logout()" class="text-sm text-gray-500 hover:text-red-500">Logout</button>
-    </div>
-  </nav>
-
-  <div class="max-w-lg mx-auto p-6">
-
-    <div id="loading" class="text-center text-gray-400 py-10">
-      Loading your application…
-    </div>
-
-    <div id="status-card" class="hidden bg-white rounded-lg shadow p-6">
-      <p class="text-xs font-semibold text-gray-400 uppercase mb-4">Application Status</p>
-
-      <div id="status-badge" class="mb-4"></div>
-
-      <table class="w-full text-sm">
-        <tr class="border-b">
-          <td class="py-2 text-gray-500 w-1/3">Membership Plan</td>
-          <td id="s-plan" class="py-2 font-medium"></td>
-        </tr>
-        <tr class="border-b">
-          <td class="py-2 text-gray-500">Submitted</td>
-          <td id="s-date" class="py-2"></td>
-        </tr>
-        <tr class="border-b">
-          <td class="py-2 text-gray-500">Reviewed</td>
-          <td id="s-reviewed" class="py-2"></td>
-        </tr>
-        <tr>
-          <td class="py-2 text-gray-500">Rejection Reason</td>
-          <td id="s-reason" class="py-2 text-gray-500"></td>
-        </tr>
-      </table>
-
-      <div class="mt-4 pt-4 border-t flex gap-3">
-        <a href="application.html"
-          class="flex-1 text-center border border-blue-600 text-blue-600 py-2 rounded hover:bg-blue-50 text-sm font-medium">
-          Apply Again
-        </a>
-        <a href="dashboard.html"
-          class="flex-1 text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 text-sm font-medium">
-          Dashboard
-        </a>
-      </div>
-    </div>
-
-    <div id="no-application" class="hidden bg-white rounded-lg shadow p-6 text-center">
-      <p class="text-gray-500 mb-4">You haven't submitted an application yet.</p>
-      <a href="application.html"
-        class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-medium">
-        Apply Now
-      </a>
-    </div>
-
-  </div>
-
-  <script>
-    const API   = 'http://127.0.0.1:8000/api/users';
-    const token = localStorage.getItem('access_token');
-
-    if (!token) window.location.href = 'login.html';
-
-    const statusConfig = {
-      pending:  { color: 'bg-yellow-100 text-yellow-700', label: '⏳ Pending Review' },
-      approved: { color: 'bg-green-100 text-green-700',   label: '✅ Approved' },
-      rejected: { color: 'bg-red-100 text-red-700',       label: '❌ Rejected' },
-    };
-
-    function fmt(dateStr) {
-      if (!dateStr) return 'Not yet';
-      return new Date(dateStr).toLocaleDateString('en-PH', {
-        year: 'numeric', month: 'long', day: 'numeric'
-      });
-    }
-
-    async function loadStatus() {
-      try {
-        const res  = await fetch(`${API}/application/status/`, {
-          headers: { 'Authorization': `Bearer ${token}` },
-        });
-
-        document.getElementById('loading').classList.add('hidden');
-
-        if (res.status === 404) {
-          document.getElementById('no-application').classList.remove('hidden');
-          return;
-        }
-
-        if (!res.ok) throw new Error();
-
-        const data = await res.json();
-        document.getElementById('status-card').classList.remove('hidden');
-
-        const cfg   = statusConfig[data.status] || { color: 'bg-gray-100 text-gray-700', label: data.status };
-        document.getElementById('status-badge').innerHTML =
-          `<span class="inline-block ${cfg.color} px-4 py-1 rounded-full text-sm font-semibold">${cfg.label}</span>`;
-
-        document.getElementById('s-plan').textContent     = data.plan_name || '—';
-        document.getElementById('s-date').textContent     = fmt(data.submitted_at);
-        document.getElementById('s-reviewed').textContent = fmt(data.reviewed_at);
-        document.getElementById('s-reason').textContent   = data.rejection_reason || '—';
-
-      } catch {
-        document.getElementById('loading').textContent = '⚠️ Cannot connect to server.';
-      }
-    }
-
-    function logout() {
-      localStorage.clear();
-      window.location.href = 'login.html';
-    }
-
-    loadStatus();
-  </script>
-=======
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitConnect - Status</title>
@@ -137,7 +10,7 @@
     <    <!-- Background effects -->
     <div class="status-page-bg"></div>
     <div class="status-grid-bg"></div>
- 
+
     <nav class="inner-navbar">
         <div class="brand">
             <div class="brand-icon">⚡</div>
@@ -145,29 +18,29 @@
         </div>
         <button class="logout-btn" onclick="logout()">Logout</button>
     </nav>
- 
+
     <!-- Page content pushed below navbar via inner-page -->
     <div class="inner-page">
         <div class="page-container">
- 
+
             <!-- Page Header -->
             <div class="status-page-header">
                 <div class="status-eyebrow">Member Portal</div>
                 <h2 class="status-page-title">Application Status</h2>
                 <p class="status-page-sub">Track your membership application below</p>
             </div>
- 
+
             <!-- Loading State -->
             <div id="loading" class="loading-state">
                 <div class="loading-spinner"></div>
                 <p>Loading your application</p>
             </div>
- 
+
             <!-- Status Card -->
             <div id="status-card" style="display:none">
                 <div class="status-card">
                     <div id="status-top-bar" class="status-card-top-bar pending"></div>
- 
+
                     <div class="status-card-header">
                         <div class="status-header-left">
                             <div id="status-icon" class="status-icon pending">⏳</div>
@@ -178,7 +51,7 @@
                         </div>
                         <div id="status-badge"></div>
                     </div>
- 
+
                     <div class="status-body">
                         <div class="status-row">
                             <span class="status-row-label"><span class="row-icon">🏋️</span> Plan</span>
@@ -197,13 +70,13 @@
                             <span class="status-row-value" id="s-reason">—</span>
                         </div>
                     </div>
- 
+
                     <div class="status-card-footer">
                         <span class="footer-note">🔒 Your data is secure</span>
                         <span id="footer-date"></span>
                     </div>
                 </div>
- 
+
                 <!-- Help note -->
                 <div class="help-card">
                     <div class="help-card-icon">💡</div>
@@ -222,13 +95,13 @@
                     <p style="font-size:13px; color:var(--txt-dim); margin-bottom:20px; line-height:1.6;">
                         Your previous application was rejected. You can submit a new application with updated information.
                     </p>
-                    <a href="application.html" class="btn btn-primary" 
+                    <a href="application.html" class="btn btn-primary"
                     style="display:inline-block; width:auto; padding:12px 32px;">
                         Submit New Application
                     </a>
                 </div>
             </div>
- 
+
             <div id="no-application" class="status-card" style="display:none;">
                 <div class="empty-icon">📋</div>
                 <h3>No Application Yet</h3>
@@ -237,13 +110,12 @@
                     Apply Now
                 </a>
             </div>
- 
+
         </div>
     </div>
 
     <script src="js/auth.js"></script>
     <script src="js/status.js"></script>
   <script src="js/theme.js"></script>
->>>>>>> fitconnect-theme
 </body>
 </html>

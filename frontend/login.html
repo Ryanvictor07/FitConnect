@@ -1,30 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FitConnect — Login</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-
-    <h1 class="text-2xl font-bold text-center text-blue-600 mb-1">FitConnect</h1>
-    <p class="text-center text-gray-400 text-sm mb-6">Member Login</p>
-
-    <div id="error-msg" class="hidden bg-red-100 text-red-700 p-3 rounded mb-4 text-sm"></div>
-
-    <div class="mb-4">
-      <label class="block text-sm text-gray-600 mb-1">Email Address</label>
-      <input type="email" id="email" placeholder="juan@email.com"
-        class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-400" />
-    </div>
-    <div class="mb-6">
-      <label class="block text-sm text-gray-600 mb-1">Password</label>
-      <input type="password" id="password" placeholder="Your password"
-        class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-400" />
-=======
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FitConnect – Login</title>
@@ -38,81 +14,9 @@
     </a>
     <div class="nav-links">
       <a href="register.html">Create Account</a>
->>>>>>> fitconnect-theme
     </div>
   </nav>
 
-<<<<<<< HEAD
-    <button id="login-btn" onclick="handleLogin()"
-      class="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700">
-      Login
-    </button>
-
-    <p class="text-center text-sm text-gray-500 mt-4">
-      Don't have an account?
-      <a href="register.html" class="text-blue-600 hover:underline">Register</a>
-    </p>
-    <p class="text-center text-sm text-gray-400 mt-2">
-      <a href="admin_login.html" class="hover:underline">Admin login →</a>
-    </p>
-  </div>
-
-  <script>
-    const API = 'http://127.0.0.1:8000/api/users';
-
-    if (localStorage.getItem('access_token')) {
-      window.location.href = 'dashboard.html';
-    }
-
-    async function handleLogin() {
-      const btn      = document.getElementById('login-btn');
-      const errorMsg = document.getElementById('error-msg');
-      errorMsg.classList.add('hidden');
-
-      const email    = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-
-      if (!email || !password) {
-        errorMsg.textContent = 'Please enter your email and password.';
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      btn.disabled    = true;
-      btn.textContent = 'Logging in…';
-
-      try {
-        const response = await fetch(`${API}/login/`, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ email, password }),
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          localStorage.setItem('access_token',  result.access);
-          localStorage.setItem('refresh_token', result.refresh);
-          localStorage.setItem('user',          JSON.stringify(result.user));
-          window.location.href = 'dashboard.html';
-        } else {
-          const msg = result.non_field_errors?.[0] || result.detail || 'Invalid email or password.';
-          errorMsg.textContent = msg;
-          errorMsg.classList.remove('hidden');
-          btn.disabled    = false;
-          btn.textContent = 'Login';
-        }
-      } catch {
-        errorMsg.textContent = 'Cannot connect to server. Make sure Django is running.';
-        errorMsg.classList.remove('hidden');
-        btn.disabled    = false;
-        btn.textContent = 'Login';
-      }
-    }
-
-    document.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
-  </script>
-=======
   <div class="auth-page">
     <div class="grid-bg"></div>
 
@@ -166,8 +70,7 @@
   </div>
 
   <script src="js/auth.js"></script>
-  
+
   <script src="js/theme.js"></script>
->>>>>>> fitconnect-theme
 </body>
 </html>
