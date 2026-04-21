@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FitConnect — Application Status</title>
@@ -126,5 +127,123 @@
 
     loadStatus();
   </script>
+=======
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitConnect - Status</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <    <!-- Background effects -->
+    <div class="status-page-bg"></div>
+    <div class="status-grid-bg"></div>
+ 
+    <nav class="inner-navbar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <h1>FitConnect</h1>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </nav>
+ 
+    <!-- Page content pushed below navbar via inner-page -->
+    <div class="inner-page">
+        <div class="page-container">
+ 
+            <!-- Page Header -->
+            <div class="status-page-header">
+                <div class="status-eyebrow">Member Portal</div>
+                <h2 class="status-page-title">Application Status</h2>
+                <p class="status-page-sub">Track your membership application below</p>
+            </div>
+ 
+            <!-- Loading State -->
+            <div id="loading" class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading your application</p>
+            </div>
+ 
+            <!-- Status Card -->
+            <div id="status-card" style="display:none">
+                <div class="status-card">
+                    <div id="status-top-bar" class="status-card-top-bar pending"></div>
+ 
+                    <div class="status-card-header">
+                        <div class="status-header-left">
+                            <div id="status-icon" class="status-icon pending">⏳</div>
+                            <div class="status-header-text">
+                                <div class="status-title" id="status-title-text">Under Review</div>
+                                <div class="status-subtitle">Membership Application</div>
+                            </div>
+                        </div>
+                        <div id="status-badge"></div>
+                    </div>
+ 
+                    <div class="status-body">
+                        <div class="status-row">
+                            <span class="status-row-label"><span class="row-icon">🏋️</span> Plan</span>
+                            <span class="status-row-value" id="s-plan">—</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-row-label"><span class="row-icon">📅</span> Submitted</span>
+                            <span class="status-row-value" id="s-date">—</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-row-label"><span class="row-icon">👤</span> Reviewed</span>
+                            <span class="status-row-value" id="s-reviewed">—</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-row-label"><span class="row-icon">💬</span> Reason</span>
+                            <span class="status-row-value" id="s-reason">—</span>
+                        </div>
+                    </div>
+ 
+                    <div class="status-card-footer">
+                        <span class="footer-note">🔒 Your data is secure</span>
+                        <span id="footer-date"></span>
+                    </div>
+                </div>
+ 
+                <!-- Help note -->
+                <div class="help-card">
+                    <div class="help-card-icon">💡</div>
+                    <div class="help-card-text">
+                        <strong>Need Help?</strong>
+                        Our team reviews applications within 1–2 business days. Contact support if you have questions.
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="reapply-section" style="display:none; margin-top:16px;">
+                <div class="app-card" style="text-align:center; padding: 28px;">
+                    <div style="font-size:32px; margin-bottom:12px;">🔄</div>
+                    <div class="section-title" style="font-size:22px; margin-bottom:6px;">Want to Try Again?</div>
+                    <p style="font-size:13px; color:var(--txt-dim); margin-bottom:20px; line-height:1.6;">
+                        Your previous application was rejected. You can submit a new application with updated information.
+                    </p>
+                    <a href="application.html" class="btn btn-primary" 
+                    style="display:inline-block; width:auto; padding:12px 32px;">
+                        Submit New Application
+                    </a>
+                </div>
+            </div>
+ 
+            <div id="no-application" class="status-card" style="display:none;">
+                <div class="empty-icon">📋</div>
+                <h3>No Application Yet</h3>
+                <p>You haven't submitted a membership application.<br>Get started today and join FitConnect!</p>
+                <a href="application.html" class="btn btn-primary" style="display:inline-block; width:auto; padding:12px 32px;">
+                    Apply Now
+                </a>
+            </div>
+ 
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/status.js"></script>
+  <script src="js/theme.js"></script>
+>>>>>>> fitconnect-theme
 </body>
 </html>

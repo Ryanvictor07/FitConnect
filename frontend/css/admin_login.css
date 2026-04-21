@@ -1,0 +1,388 @@
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:    #f97316;
+      --orange-dk: #ea580c;
+      --orange-lt: #fed7aa;
+      --yellow:    #fbbf24;
+      --green:     #22c55e;
+      --red:       #ef4444;
+      --bg:        #0a0a0a;
+      --surface:   #111111;
+      --surface2:  #1a1a1a;
+      --surface3:  #222222;
+      --border:    #2a2a2a;
+      --border2:   #333333;
+      --txt:       #f5f5f5;
+      --txt-muted: #888888;
+      --txt-dim:   #555555;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'Barlow', sans-serif;
+      color: var(--txt);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* Radial glow top-left */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -120px;
+      left: -120px;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(249,115,22,0.12), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Bottom-right glow */
+    .glow-br {
+      position: fixed;
+      bottom: -100px;
+      right: -100px;
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, rgba(249,115,22,0.07), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Grid lines background */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(249,115,22,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(249,115,22,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── CARD ── */
+    .login-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      padding: 20px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border2);
+      overflow: hidden;
+      box-shadow:
+        0 32px 80px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(249,115,22,0.05) inset;
+    }
+
+    /* Card top orange accent bar */
+    .card-accent {
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange), var(--orange-dk), transparent);
+    }
+
+    .card-inner { padding: 36px 36px 32px; }
+
+    /* ── LOGO ── */
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: var(--orange);
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 24px rgba(249,115,22,0.45);
+      flex-shrink: 0;
+    }
+
+    .logo-text h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30px;
+      letter-spacing: 3px;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .logo-text span {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--txt-dim);
+    }
+
+    /* ── HEADING ── */
+    .heading-block {
+      margin-bottom: 28px;
+    }
+
+    .admin-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.25);
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .admin-pill::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.6); }
+      50%       { box-shadow: 0 0 0 5px rgba(249,115,22,0); }
+    }
+
+    .heading-block h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 3px;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .heading-block p {
+      font-size: 12px;
+      color: var(--txt-dim);
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── FORM ── */
+    .form-group { margin-bottom: 18px; }
+
+    .form-group label {
+      display: block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--txt-dim);
+      margin-bottom: 7px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 500;
+      color: var(--txt);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrap input::placeholder { color: var(--txt-dim); }
+
+    .input-wrap input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
+    }
+
+    /* Password toggle */
+    .toggle-pw {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      opacity: 0.35;
+      transition: opacity 0.2s;
+      padding: 0;
+    }
+
+    .toggle-pw:hover { opacity: 0.7; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--orange), transparent);
+      margin: 24px 0;
+      opacity: 0.25;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(249,115,22,0.4);
+      position: relative;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .btn-login::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+      pointer-events: none;
+    }
+
+    .btn-login:hover {
+      background: var(--orange-dk);
+      box-shadow: 0 6px 28px rgba(249,115,22,0.55);
+      transform: translateY(-1px);
+    }
+
+    .btn-login:active { transform: translateY(0); }
+
+    .btn-login:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── ERROR MESSAGE ── */
+    #error-msg {
+      display: none;
+      padding: 11px 14px;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--red);
+      margin-bottom: 18px;
+      letter-spacing: 0.3px;
+    }
+
+    #error-msg.show { display: flex; align-items: center; gap: 8px; }
+    #error-msg.show::before { content: '⚠'; font-size: 14px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .card-footer {
+      padding: 16px 36px;
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-footer p {
+      font-size: 11px;
+      color: var(--txt-dim);
+      letter-spacing: 0.3px;
+    }
+
+    .card-footer span {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--txt-dim);
+      opacity: 0.5;
+    }
+
+/* ═══════════════════════════════════════════════════
+   LIGHT MODE for Admin Login (html.light)
+═══════════════════════════════════════════════════ */
+html.light {
+  --bg:        #f0f0f0;
+  --surface:   #ffffff;
+  --surface2:  #f7f7f7;
+  --border:    #e0e0e0;
+  --border2:   #d0d0d0;
+  --txt:       #111111;
+  --txt-muted: #555555;
+  --txt-dim:   #999999;
+}
+
+html.light body                  { background: var(--bg); }
+html.light .card                 { background: var(--surface); border-color: var(--border2); box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+html.light .card-footer          { background: var(--surface2); border-top-color: var(--border); }
+html.light .logo-text h1,
+html.light .heading-block h2     { color: #111; }
+html.light .input-wrap input     { background: var(--surface2); border-color: var(--border2); color: var(--txt); }
+html.light body::before,
+html.light body::after           { opacity: 0.05; }
+html.light ::-webkit-scrollbar-track { background: var(--bg); }
+html.light ::-webkit-scrollbar-thumb { background: var(--border2); }
+
+/* Smooth transitions */
+body, .card, .card-footer, .input-wrap input {
+  transition: background-color 0.25s, border-color 0.25s, color 0.2s;
+}

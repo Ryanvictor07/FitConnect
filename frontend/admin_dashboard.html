@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitConnect — Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin_dashboard.css" />
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">💪</div>
+      <h2>FitConnect</h2>
+    </div>
+    <p>Admin Portal</p>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Main</div>
+    <div class="nav-item active" onclick="showSection('dashboard')">
+      <div class="icon">📊</div> Dashboard
+    </div>
+    <div class="nav-item" onclick="showSection('applications')">
+      <div class="icon">📋</div> Applications
+    </div>
+    <div class="nav-section-label">Manage</div>
+    <div class="nav-item" onclick="showSection('plans')">
+      <div class="icon">📄</div> Membership Plans
+    </div>
+    <div class="nav-item" onclick="showSection('trainers')">
+      <div class="icon">🏋</div> Personal Trainers
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="admin-badge">
+      <div class="avatar" id="admin-avatar">A</div>
+      <div class="info">
+        <p id="admin-name">Admin</p>
+        <span id="admin-email">—</span>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="logout()">🚪 &nbsp;Logout</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1 id="page-title">Dashboard</h1>
+      <div class="breadcrumb">FitConnect &rsaquo; <span id="breadcrumb-label">Overview</span></div>
+    </div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      Live
+    </div>
+  </div>
+
+  <div class="content-area">
+
+    <!-- DASHBOARD -->
+    <section class="section active" id="section-dashboard">
+      <div class="dashboard-hero">
+        <div class="hero-text">
+          <h2>Welcome Back, <strong id="hero-name">Admin</strong> 👊</h2>
+          <p>Here's what's happening at FitConnect today.</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="loadDashboard()">🔄 Refresh</button>
+      </div>
+      <div class="stats-grid" id="stats-grid">
+        <div class="loading">Loading stats</div>
+      </div>
+    </section>
+
+    <!-- APPLICATIONS -->
+    <section class="section" id="section-applications">
+      <div class="section-header">
+        <div>
+          <h2>Applications</h2>
+          <p>Review and manage membership applications</p>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <select id="app-filter" onchange="loadApplications()">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="loadApplications()">🔄 Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Applicant</th><th>Email</th>
+              <th>Plan</th><th>Submitted</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="app-tbody">
+            <tr><td colspan="7" class="loading">Loading</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PLANS -->
+    <section class="section" id="section-plans">
+      <div class="section-header">
+        <div>
+          <h2>Membership Plans</h2>
+          <p>Create and manage subscription plans</p>
+        </div>
+        <button class="btn btn-primary" onclick="openPlanModal()">+ New Plan</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Name</th><th>Description</th>
+              <th>Price</th><th>Duration</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="plans-tbody">
+            <tr><td colspan="7" class="loading">Loading</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TRAINERS -->
+    <section class="section" id="section-trainers">
+      <div class="section-header">
+        <div>
+          <h2>Personal Trainers</h2>
+          <p>Manage your coaching team</p>
+        </div>
+        <button class="btn btn-primary" onclick="openTrainerModal()">+ New Trainer</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Name</th><th>Specialty</th>
+              <th>Experience</th><th>Availability</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="trainers-tbody">
+            <tr><td colspan="6" class="loading">Loading</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div><!-- /content-area -->
+</main>
+
+
+<!-- MODALS -->
+
+<!-- Review Application -->
+<div class="modal-overlay" id="modal-review">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-icon">📋</div>
+      <h3>Review Application</h3>
+    </div>
+    <div class="modal-body">
+      <div id="review-info" style="margin-bottom:18px;font-size:13px;color:var(--txt-muted);padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);"></div>
+      <label>Decision</label>
+      <select id="review-action" onchange="toggleRejectionReason()">
+        <option value="approve">✅ Approve Application</option>
+        <option value="reject">❌ Reject Application</option>
+      </select>
+      <div id="rejection-wrap" style="display:none;">
+        <label>Rejection Reason <span style="color:var(--red)">*</span></label>
+        <textarea id="rejection-reason" rows="3" placeholder="Explain the reason for rejection…"></textarea>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-review')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitReview()">Submit Decision</button>
+    </div>
+  </div>
+</div>
+
+<!-- Plan Create/Edit -->
+<div class="modal-overlay" id="modal-plan">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-icon">📄</div>
+      <h3 id="plan-modal-title">New Membership Plan</h3>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="plan-id" />
+      <label>Plan Name</label>
+      <input type="text" id="plan-name" placeholder="e.g. Gold Monthly" />
+      <label>Description</label>
+      <textarea id="plan-desc" rows="3" placeholder="What does this plan include?"></textarea>
+      <label>Price (₱)</label>
+      <input type="number" id="plan-price" placeholder="999.00" step="0.01" min="0" />
+      <label>Duration (months)</label>
+      <input type="number" id="plan-duration" placeholder="1" min="1" />
+      <label>Status</label>
+      <select id="plan-active">
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
+      </select>
+    </div>
+    <div class="actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-plan')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePlan()">Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trainer Create/Edit -->
+<div class="modal-overlay" id="modal-trainer">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-icon">🏋</div>
+      <h3 id="trainer-modal-title">New Personal Trainer</h3>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="trainer-id" />
+      <label>Full Name</label>
+      <input type="text" id="trainer-name" placeholder="e.g. Maria Santos" />
+      <label>Specialty</label>
+      <input type="text" id="trainer-specialty" placeholder="e.g. Strength & Conditioning" />
+      <label>Years of Experience</label>
+      <input type="number" id="trainer-experience" placeholder="5" min="0" />
+      <label>Availability</label>
+      <select id="trainer-available">
+        <option value="true">Available</option>
+        <option value="false">Not Available</option>
+      </select>
+    </div>
+    <div class="actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-trainer')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTrainer()">Save Trainer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+
+
+<script src="js/admin_dashboard.js"></script>
+  <script src="js/theme.js"></script>
+</body>
+</html>

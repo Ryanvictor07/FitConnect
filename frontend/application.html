@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FitConnect — Apply for Membership</title>
@@ -24,8 +25,23 @@
       <div class="flex-1 h-1 rounded bg-gray-300" id="s2"></div>
       <div class="flex-1 h-1 rounded bg-gray-300" id="s3"></div>
       <div class="flex-1 h-1 rounded bg-gray-300" id="s4"></div>
+=======
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitConnect – Apply</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <nav class="inner-navbar">
+    <div class="brand">
+      <a href="index.html" class="brand-icon">💪</a>
+      <h1>FitConnect</h1>
+>>>>>>> fitconnect-theme
     </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </nav>
 
+<<<<<<< HEAD
     <div id="error-msg" class="hidden bg-red-100 text-red-700 p-3 rounded mb-4 text-sm"></div>
 
     <!-- ── STEP 1: Personal Info ── -->
@@ -357,5 +373,123 @@
       window.location.href = 'login.html';
     }
   </script>
+=======
+  <div class="inner-page">
+    <div class="page-container">
+
+      <div class="section-title">Membership Application</div>
+      <div class="section-sub">Complete all steps to submit your application</div>
+
+      <!-- Step labels -->
+      <div class="step-label">
+        <span id="step-label-text">Step 1 of 4 — Personal Info</span>
+        <span id="step-num-label">25%</span>
+      </div>
+
+      <!-- Step bar -->
+      <div class="step-bar">
+        <div class="step active" id="s1"></div>
+        <div class="step" id="s2"></div>
+        <div class="step" id="s3"></div>
+        <div class="step" id="s4"></div>
+      </div>
+
+      <div id="error-msg" class="alert alert-error"></div>
+
+      <!-- ── STEP 1: Personal Info ── -->
+      <div id="page-1">
+        <div class="app-card">
+          <div class="card-label">Personal Information</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" class="plain" id="first_name" placeholder="Juan"/>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" class="plain" id="last_name" placeholder="dela Cruz"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" class="plain" id="email" placeholder="juan@email.com"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <input type="date" class="plain" id="birthdate"/>
+            </div>
+            <div class="form-group">
+              <label>Contact Number</label>
+              <input type="tel" class="plain" id="phone" placeholder="09123456789"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" class="plain" id="address" placeholder="Street, City, Province"/>
+          </div>
+          <div class="form-group">
+            <label>Health Document <span style="color:var(--orange);font-size:10px;font-weight:800;letter-spacing:1px;">REQUIRED</span></label>
+            <input type="file" class="plain" id="health_doc" accept=".pdf,.jpg,.png"
+              style="color:var(--txt-muted);cursor:pointer;"/>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="goStep(2)">Continue to Plan Selection →</button>
+      </div>
+
+      <!-- ── STEP 2: Choose Plan ── -->
+      <div id="page-2" style="display:none">
+        <div class="app-card">
+          <div class="card-label">Choose a Membership Plan</div>
+          <div id="plans-list">
+            <div class="loading-state">Loading plans</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn-back" onclick="goStep(1)">← Back</button>
+          <button class="btn btn-primary" style="flex:2" onclick="goStep(3)">Continue to Trainer →</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Choose Trainer ── -->
+      <div id="page-3" style="display:none">
+        <div class="app-card">
+          <div class="card-label">Personal Trainer <span style="color:var(--txt-dim);font-size:9px;font-weight:700;">Optional</span></div>
+          <div id="trainers-list">
+            <div class="loading-state">Loading trainers</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn-back" onclick="goStep(2)">← Back</button>
+          <button class="btn btn-primary" style="flex:2" onclick="goStep(4)">Review & Submit →</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 4: Review ── -->
+      <div id="page-4" style="display:none">
+        <div class="app-card">
+          <div class="card-label">Review Your Application</div>
+          <table class="review-table">
+            <tr><td>Full Name</td><td id="r-name">—</td></tr>
+            <tr><td>Email</td><td id="r-email">—</td></tr>
+            <tr><td>Membership Plan</td><td id="r-plan">—</td></tr>
+            <tr><td>Personal Trainer</td><td id="r-trainer">—</td></tr>
+            <tr><td>Status</td><td><span class="badge badge-pending">Pending Review</span></td></tr>
+          </table>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn-back" onclick="goStep(3)">← Back</button>
+          <button class="btn btn-primary" style="flex:2" onclick="submitApplication()">Submit Application 🚀</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/application.js"></script>
+  
+  <script src="js/theme.js"></script>
+>>>>>>> fitconnect-theme
 </body>
 </html>
