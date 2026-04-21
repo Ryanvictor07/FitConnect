@@ -435,6 +435,14 @@ class AdminMembershipPlanDetailView(APIView):
        plan.save()
        return Response({'message': 'Plan deactivated successfully.'})
 
+   # Hard Delete
+   # def delete(self, request, pk):
+   #     plan = self._get_object(pk)
+   #     if not plan:
+   #         return Response({'error': 'Plan not found.'}, status=404)
+   #     plan.delete()  # Permanently removes the DB record
+   #     return Response({'message': 'Plan deleted successfully.'})
+
 
 class AdminPersonalTrainerListView(APIView):
    permission_classes = [IsAdminUser]
